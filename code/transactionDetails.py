@@ -1,13 +1,13 @@
-import productDetails as productDetails
-import userDetails as userDetails
-import cardDetails as cardDetails
+from productDetails import ProductDetails
+from userDetails import UserDetails
+from cardDetails import CardDetails
 
 class TransactionDetails:
     def __init__(self, 
                  transactionId, 
-                 userDetails: userDetails.UserDetails, 
-                 Product: productDetails.ProductDetails,
-                 cardDetails: cardDetails.CardDetails):
+                 userDetails: UserDetails, 
+                 Product: ProductDetails,
+                 cardDetails: CardDetails):
         
         self.userDetails = userDetails
         self.transactionId = transactionId
