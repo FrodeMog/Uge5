@@ -1,4 +1,4 @@
-import product as product
+import productDetails as productDetails
 import userDetails as userDetails
 import cardDetails as cardDetails
 
@@ -6,7 +6,7 @@ class TransactionDetails:
     def __init__(self, 
                  transactionId, 
                  userDetails: userDetails.UserDetails, 
-                 Product: product.Product,
+                 Product: productDetails.ProductDetails,
                  cardDetails: cardDetails.CardDetails):
         
         self.userDetails = userDetails

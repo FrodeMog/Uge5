@@ -1,6 +1,6 @@
 from typing import Optional
 
-class Product:
+class ProductDetails:
     def __init__(self, 
                 product_id: str, 
                 manufacturer_id: str, 
