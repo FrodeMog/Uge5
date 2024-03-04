@@ -1,11 +1,11 @@
 class CardDetails:
     def __init__(self, 
-                 cardNumber, 
-                 cardHolderName, 
-                 expiryDate, 
+                 card_number, 
+                 card_holder_name, 
+                 expiry_date, 
                  cvv):
         
-        self.cardNumber = cardNumber
-        self.cardHolderName = cardHolderName
-        self.expiryDate = expiryDate
+        self.cardNumber = card_number
+        self.cardHolderName = card_holder_name
+        self.expiryDate = expiry_date
         self.cvv = cvv
