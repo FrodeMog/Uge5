@@ -4,12 +4,12 @@ from cardDetails import CardDetails
 
 class TransactionDetails:
     def __init__(self, 
-                 transactionId, 
+                 transaction_id, 
                  userDetails: UserDetails, 
-                 Product: ProductDetails,
+                 productDetails: ProductDetails,
                  cardDetails: CardDetails):
         
+        self.transaction_id = transaction_id
         self.userDetails = userDetails
-        self.transactionId = transactionId
-        self.Product = Product
+        self.productetails = productDetails
         self.cardDetails = cardDetails
