@@ -5,7 +5,7 @@ class CardDetails:
                  expiry_date, 
                  cvv):
         
-        self.cardNumber = card_number
-        self.cardHolderName = card_holder_name
-        self.expiryDate = expiry_date
+        self.card_number = card_number
+        self.card_holder_name = card_holder_name
+        self.expiry_date = expiry_date
         self.cvv = cvv
