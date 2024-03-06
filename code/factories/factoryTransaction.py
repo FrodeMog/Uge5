@@ -14,8 +14,6 @@ class FactoryTransaction(Factory):
         else:
             transaction_data.update(kwargs)
 
-        transaction_data['transaction_id'] = self.handle_id(transaction_data.get('transaction_id'))
-
         transaction = super().create(TransactionDetails, **transaction_data)
 
         return transaction

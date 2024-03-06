@@ -11,8 +11,6 @@ class FactoryProduct(Factory):
         else:
             product_data.update(kwargs)
 
-        product_data['product_id'] = self.handle_id(product_data.get('product_id'))
-
         product = super().create(ProductDetails, **product_data)
 
         return product

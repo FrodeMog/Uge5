@@ -1,5 +1,4 @@
 from details.userDetails import UserDetails
-from details.loginDetails import LoginDetails
 from factories.factory import Factory
 
 class FactoryUser(Factory):
@@ -11,8 +10,6 @@ class FactoryUser(Factory):
             user_data = kwargs
         else:
             user_data.update(kwargs)
-
-        user_data['user_id'] = self.handle_id(user_data.get('user_id'))
 
         user = super().create(UserDetails, **user_data)
 
