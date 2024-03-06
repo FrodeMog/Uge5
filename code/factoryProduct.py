@@ -15,6 +15,7 @@ class FactoryProduct:
                        product_id: Optional[str] = None,
                        **kwargs):
         product_id = self.give_product_id(product_id)
+        product_id = str(product_id)
 
         product = ProductDetails(product_id, manufacturer_id, manufacturer, name, price, currency, **kwargs)
 
