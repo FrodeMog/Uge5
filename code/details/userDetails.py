@@ -2,7 +2,7 @@ from details.loginDetails import LoginDetails
 
 class UserDetails:
     def __init__(self,
-                user_id,
+                uuid,
                 name,
                 age,
                 email,
@@ -11,7 +11,7 @@ class UserDetails:
                 phone,
                 loginDetails: LoginDetails):
         
-        self.user_id = user_id
+        self.uuid = uuid
         self.name = name
         self.age = age
         self.email = email

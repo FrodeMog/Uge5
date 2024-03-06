@@ -2,7 +2,7 @@ from typing import Optional
 
 class ProductDetails:
     def __init__(self, 
-                product_id: str, 
+                uuid: str, 
                 manufacturer_id: str, 
                 manufacturer: str, 
                 name: str, 
@@ -18,7 +18,7 @@ class ProductDetails:
                 #image: Optional[#Image object] = None, #Maybe implement later
                 rating: Optional[dict] = None, 
                 tecnical_specs: Optional[dict] = None):
-        self.product_id = product_id            #ID on sales page
+        self.uuid = uuid                        #ID on sales page
         self.manufacturer_id = manufacturer_id  #ID from manufacturer
         self.manufacturer = manufacturer        #Name of the manufacturer
         self.name = name                        #Name of the product
