@@ -5,6 +5,22 @@ class Factory:
     def __init__(self):
         pass
 
+    def create(self, cls, data_dict=None, **kwargs):
+        if data_dict is None and not kwargs:
+            raise ValueError("No arguments provided")
+        
+        if data_dict is None:
+            data_dict = kwargs
+        else:
+            data_dict.update(kwargs)
+
+        mandatory_fields = self.get_mandatory_fields(cls)
+        self.check_mandatory_fields(data_dict, mandatory_fields)
+
+        item = cls(**data_dict)
+
+        return item
+
     def get_mandatory_fields(self, cls):
         sig = inspect.signature(cls.__init__)
         return [name for name, param in sig.parameters.items() if param.default == inspect.Parameter.empty and name != 'self']
