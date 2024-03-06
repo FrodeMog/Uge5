@@ -1,4 +1,4 @@
-from loginDetails import LoginDetails
+from details.loginDetails import LoginDetails
 
 class UserDetails:
     def __init__(self,

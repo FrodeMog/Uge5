@@ -1,6 +1,6 @@
-from productDetails import ProductDetails
-from userDetails import UserDetails
-from cardDetails import CardDetails
+from details.productDetails import ProductDetails
+from details.userDetails import UserDetails
+from details.cardDetails import CardDetails
 
 class TransactionDetails:
     def __init__(self, 
