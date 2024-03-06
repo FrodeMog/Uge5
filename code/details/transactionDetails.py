@@ -11,5 +11,5 @@ class TransactionDetails:
         
         self.transaction_id = transaction_id
         self.userDetails = userDetails
-        self.productetails = productDetails
+        self.productDetails = productDetails
         self.cardDetails = cardDetails
