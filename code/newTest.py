@@ -46,6 +46,12 @@ class TestFactory(unittest.TestCase):
         product = productFactory.create(self.product_data)
         for key, value in self.product_data.items():
             self.assertEqual(getattr(product, key), value)
+
+    def test_create_product_ivalid_price(self):
+        productFactory = Factory("product")
+        self.product_data["price"] = -100
+        with self.assertRaises(ValueError):
+            productFactory.create(self.product_data)
     
     def test_create_product_missing_values(self):
         productFactory = Factory("product")
