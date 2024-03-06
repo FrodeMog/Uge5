@@ -1,5 +1,5 @@
 from details.productDetails import ProductDetails
-from factory import Factory
+from factories.factory import Factory
 
 class FactoryProduct(Factory):
     def __init__(self):
@@ -13,6 +13,6 @@ class FactoryProduct(Factory):
 
         product_data['product_id'] = self.handle_id(product_data.get('product_id'))
 
-        product = super().create(ProductDetails, product_data)
+        product = super().create(ProductDetails, **product_data)
 
         return product

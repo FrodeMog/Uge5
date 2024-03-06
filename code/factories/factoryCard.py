@@ -1,5 +1,5 @@
 from details.cardDetails import CardDetails
-from factory import Factory
+from factories.factory import Factory
 
 class FactoryCard(Factory):
     def __init__(self):
@@ -11,6 +11,6 @@ class FactoryCard(Factory):
         else:
             card_data.update(kwargs)
 
-        card = super().create(CardDetails, card_data)
+        card = super().create(CardDetails, **card_data)
 
         return card

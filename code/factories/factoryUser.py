@@ -1,7 +1,6 @@
-from typing import Optional
 from details.userDetails import UserDetails
 from details.loginDetails import LoginDetails
-from factory import Factory
+from factories.factory import Factory
 
 class FactoryUser(Factory):
     def __init__(self):
@@ -15,6 +14,6 @@ class FactoryUser(Factory):
 
         user_data['user_id'] = self.handle_id(user_data.get('user_id'))
 
-        user = super().create(UserDetails, user_data)
+        user = super().create(UserDetails, **user_data)
 
         return user

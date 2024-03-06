@@ -1,9 +1,19 @@
 import uuid
 import inspect
+from details.productDetails import ProductDetails as Product
+from details.transactionDetails import TransactionDetails as Transaction
+from details.userDetails import UserDetails as User
+from details.cardDetails import CardDetails as Card
 
 class Factory:
-    def __init__(self):
-        pass
+    def __init__(self, item_type=None):
+        self.item_type = item_type
+        self.type_map = {
+            "product": Product,
+            "transaction": Transaction,
+            "user": User,
+            "card": Card,
+        }
 
     def create(self, cls, data_dict=None, **kwargs):
         if data_dict is None and not kwargs:

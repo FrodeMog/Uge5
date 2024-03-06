@@ -1,10 +1,10 @@
 import unittest
 from details.loginDetails import LoginDetails
-from factoryProduct import FactoryProduct
-from factoryTransaction import FactoryTransaction
-from factoryUser import FactoryUser
-from factoryCard import FactoryCard
-#python -m unittest tests.py
+from factories.factoryProduct import FactoryProduct
+from factories.factoryTransaction import FactoryTransaction
+from factories.factoryUser import FactoryUser
+from factories.factoryCard import FactoryCard
+#python -m unittest test.py
 
 #Product
 class TestFactoryProduct (unittest.TestCase):
