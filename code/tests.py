@@ -1,5 +1,8 @@
 import unittest
+from details.loginDetails import LoginDetails
 from factoryProduct import FactoryProduct
+from factoryTransaction import FactoryTransaction
+from factoryUser import FactoryUser
 #python -m unittest tests.py
 
 class TestFactoryProduct (unittest.TestCase):
@@ -22,6 +25,11 @@ class TestFactoryProduct (unittest.TestCase):
         factory = FactoryProduct()
         product = factory.create_product(1, "Apple", "iPhone", 1000, "USD", 1)
         self.assertEqual(product.product_id, "1") #id should convert the int to a string
+    
+    def test_create_product_with_missing_fields(self):
+        factory = FactoryProduct()
+        with self.assertRaises(ValueError):
+            product = factory.create_product("1", "Apple", "iPhone", None, "USD")
     
     def test_create_product_with_kwargs(self):
         factory = FactoryProduct()
@@ -48,6 +56,81 @@ class TestFactoryProduct (unittest.TestCase):
         #assert that the product is same value as all the values in the dict
         for key in product_dict:
             self.assertEqual(getattr(product, key), product_dict[key])
+    
+    def test_create_product_with_dict_missing_fields(self):
+        factory = FactoryProduct()
+        product_dict = { #Scrambled order
+            "currency": "USD",
+            "manufacturer": "Apple",
+            "product_id": "1",
+            "manufacturer_id": "1",
+        }
+        with self.assertRaises(ValueError):
+            product = factory.create_product(**product_dict)
+
+class TestFactoryUser (unittest.TestCase):
+    def test_create_user(self):
+        factory = FactoryUser()
+        loginDetails = LoginDetails("john", "123")
+        user = factory.create_user("John", 30, "john@email.com", "123 fake st", "123 fake st", "123456789", loginDetails)
+        for key in ["name", "age", "email", "address", "shipping_address", "phone", "loginDetails"]:
+            self.assertIsNotNone(getattr(user, key))
+        self.assertIsNotNone(user.user_id)
+    
+    def test_create_user_with_id(self):
+        factory = FactoryUser()
+        loginDetails = LoginDetails("john", "123")
+        user = factory.create_user("John", 30, "john@email.com", "123 fake st", "123 fake st", "123456789", loginDetails, "1")
+        for key in ["name", "age", "email", "address", "shipping_address", "phone", "loginDetails"]:
+            self.assertIsNotNone(getattr(user, key))
+        self.assertEqual(user.user_id, "1")
+    
+    def test_create_user_with_int_id(self):
+        factory = FactoryUser()
+        loginDetails = LoginDetails("john", "123")
+        user = factory.create_user("John", 30, "john@email.com", "123 fake st", "123 fake st", "123456789", loginDetails, 1)
+        for key in ["name", "age", "email", "address", "shipping_address", "phone", "loginDetails"]:
+            self.assertIsNotNone(getattr(user, key))
+        self.assertEqual(user.user_id, "1")
+
+    def test_create_user_with_missing_fields(self):
+        factory = FactoryUser()
+        with self.assertRaises(ValueError):
+            user = factory.create_user("John", 30, "john@email.com", None, "123 fake st", None, None)
+    
+    def test_create_user_with_dict(self):
+        factory = FactoryUser()
+        loginDetails = LoginDetails("john", "123")
+        user_dict = {
+            "name": "John",
+            "age": 30,
+            "email": "john@email.com",
+            "address": "123 fake st",
+            "shipping_address": "123 fake st",
+            "phone": "123456789",
+            "loginDetails": loginDetails,
+        }
+        user = factory.create_user(**user_dict)
+        for key in user_dict:
+            self.assertEqual(getattr(user, key), user_dict[key])
+
+    def test_create_user_with_dict_missing_fields(self):
+        factory = FactoryUser()
+        user_dict = {
+            "name": "John",
+            "age": 30,
+            "email": "john@email.com",
+            "address": "123 fake st",
+            "shipping_address": "123 fake st",
+            "phone": "123456789",
+        }
+        with self.assertRaises(ValueError):
+            user = factory.create_user(**user_dict)
+            
+
+class TestFactoryTransaction (unittest.TestCase):
+    def test_create_transaction(self):
+        factory = FactoryTransaction()
 
 class CustomTestResult(unittest.TextTestResult):
     def printErrors(self):
