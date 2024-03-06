@@ -130,6 +130,41 @@ class TestFactoryUser (unittest.TestCase):
         with self.assertRaises(ValueError):
             user = factory.create_user(**user_dict)
 
+#Card
+class TestFactoryCard (unittest.TestCase):
+    def test_create_card(self):
+        factory = FactoryCard()
+        card = factory.create_card(card_number="123456789", card_holder_name="john", expiry_date="12/24", cvv="123")
+        for key in ["card_number", "card_holder_name", "expiry_date", "cvv"]:
+            self.assertIsNotNone(getattr(card, key))
+    
+    def test_create_card_with_missing_fields(self):
+        factory = FactoryCard()
+        with self.assertRaises(ValueError):
+            card = factory.create_card(card_number="123456789", card_holder_name="john", expiry_date="12/24")
+    
+    def test_create_card_with_dict(self):
+        factory = FactoryCard()
+        card_dict = {
+            "card_number": "123456789",
+            "card_holder_name": "john",
+            "expiry_date": "12/24",
+            "cvv": "123",
+        }
+        card = factory.create_card(**card_dict)
+        for key in card_dict:
+            self.assertEqual(getattr(card, key), card_dict[key])
+    
+    def test_create_card_with_dict_missing_fields(self):
+        factory = FactoryCard()
+        card_dict = {
+            "card_number": "123456789",
+            "card_holder_name": "john",
+            "expiry_date": "12/24",
+        }
+        with self.assertRaises(ValueError):
+            card = factory.create_card(**card_dict)
+
 #Transaction
 class TestFactoryTransaction (unittest.TestCase):
     def setUp(self):
