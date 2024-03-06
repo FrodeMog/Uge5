@@ -6,6 +6,13 @@ from details.userDetails import UserDetails as User
 from details.cardDetails import CardDetails as Card
 from details.loginDetails import LoginDetails as Login
 
+class Validator:
+    @staticmethod
+    def validate_price(data_dict):
+        price = data_dict.get("price")
+        if price is None or not isinstance(price, (int, float)) or price <= 0:
+            raise ValueError("Invalid or missing price for product")
+
 class Factory:
     def __init__(self, item_type=None):
         self.item_type = item_type
@@ -15,6 +22,11 @@ class Factory:
             "user": User,
             "login": Login,
             "card": Card,
+        }
+        self.validation_map = {
+            "product": [Validator.validate_price],
+            # Add validation functions for other types as needed
+            # ex. validate password length etc
         }
 
     def create(self, data_dict=None, **kwargs):
@@ -31,6 +43,11 @@ class Factory:
             data_dict.update(kwargs)
 
         mandatory_fields = self.get_mandatory_fields(cls)
+
+        # Special checks for certain types
+        validation_funcs = self.validation_map.get(self.item_type, [])
+        for func in validation_funcs:
+            func(data_dict)
 
         # If "uuid" is a mandatory field and its not provided, generate a UUID
         if "uuid" in mandatory_fields and "uuid" not in data_dict:
