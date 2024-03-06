@@ -28,6 +28,27 @@ class TestFactoryProduct (unittest.TestCase):
         product = factory.create_product("1", "Apple", "iPhone", 1000, "USD", "1", color="black")
         self.assertEqual(product.color, "black")
 
+    def test_create_product_with_kwargs_dict(self):
+        factory = FactoryProduct()
+        product = factory.create_product("1", "Apple", "iPhone", 1000, "USD", "1", tecnical_specs={"screen": "OLED"})
+        self.assertEqual(product.tecnical_specs, {"screen": "OLED"})
+    
+    def test_create_product_with_dict(self):
+        factory = FactoryProduct()
+        product_dict = { #Scrambled order
+            "currency": "USD",
+            "manufacturer": "Apple",
+            "product_id": "1",
+            "price": 1000,
+            "manufacturer_id": "1",
+            "name": "iPhone",
+            "color": "black"
+        }
+        product = factory.create_product(**product_dict)
+        #assert that the product is same value as all the values in the dict
+        for key in product_dict:
+            self.assertEqual(getattr(product, key), product_dict[key])
+
 class CustomTestResult(unittest.TextTestResult):
     def printErrors(self):
         self.stream.writeln("Passed: {}".format(self.testsRun - len(self.failures) - len(self.errors)))
