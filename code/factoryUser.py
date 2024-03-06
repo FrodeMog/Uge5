@@ -1,9 +1,9 @@
-import uuid
 from typing import Optional
 from details.userDetails import UserDetails
 from details.loginDetails import LoginDetails
+from factory import Factory
 
-class FactoryUser:
+class FactoryUser(Factory):
     def __init__(self):
         pass
 
@@ -17,17 +17,11 @@ class FactoryUser:
                     loginDetails: LoginDetails,
                     user_id: Optional[str] = None):
         
-        user_id = self.give_user_id(user_id)
-        user_id = str(user_id)
+        user_id = self.handle_id(user_id)
+        user =  UserDetails(user_id, name, age, email, address, shipping_address, phone, loginDetails)
 
-        user = UserDetails(user_id, name, age, email, address, shipping_address, phone, loginDetails)
-
-        if not all([name, age, email, address, shipping_address, phone, loginDetails]):
-            raise ValueError("Mandatory fields cannot be empty")
+        #Error checks
+        self.check_mandatory_fields(user.__dict__, self.get_mandatory_fields(UserDetails))
 
         return user
     
-    def give_user_id(self, user_id):
-        if user_id is None:
-            user_id = str(uuid.uuid4()) #maybe handle differently with a database
-        return user_id
