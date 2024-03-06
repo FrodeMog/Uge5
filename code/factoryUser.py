@@ -6,22 +6,15 @@ from factory import Factory
 class FactoryUser(Factory):
     def __init__(self):
         pass
+    
+    def create_user(self, user_data=None, **kwargs):
+        if user_data is None:
+            user_data = kwargs
+        else:
+            user_data.update(kwargs)
 
-    def create_user(self,
-                    name,
-                    age,
-                    email,
-                    address,
-                    shipping_address,
-                    phone,
-                    loginDetails: LoginDetails,
-                    user_id: Optional[str] = None):
-        
-        user_id = self.handle_id(user_id)
-        user =  UserDetails(user_id, name, age, email, address, shipping_address, phone, loginDetails)
+        user_data['user_id'] = self.handle_id(user_data.get('user_id'))
 
-        #Error checks
-        self.check_mandatory_fields(user.__dict__, self.get_mandatory_fields(UserDetails))
+        user = super().create(UserDetails, user_data)
 
         return user
-    

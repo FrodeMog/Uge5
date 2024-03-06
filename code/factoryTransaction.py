@@ -8,17 +8,15 @@ from factory import Factory
 class FactoryTransaction(Factory):
     def __init__(self):
         pass
+    
+    def create_transaction(self, transaction_data=None, **kwargs):
+        if transaction_data is None:
+            transaction_data = kwargs
+        else:
+            transaction_data.update(kwargs)
 
-    def create_transaction(self,
-                           userDetails: UserDetails,
-                           productDetails: ProductDetails,
-                           cardDetails: CardDetails,
-                           transaction_id: Optional[str] = None):
-        
-        transaction_id = self.handle_id(transaction_id)
-        transaction = TransactionDetails(transaction_id, userDetails, productDetails, cardDetails)
+        transaction_data['transaction_id'] = self.handle_id(transaction_data.get('transaction_id'))
 
-        #Error checks
-        self.check_mandatory_fields(transaction.__dict__, self.get_mandatory_fields(TransactionDetails))
+        transaction = super().create(TransactionDetails, transaction_data)
 
         return transaction
