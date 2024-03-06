@@ -15,16 +15,17 @@ class FactoryTransaction:
                            cardDetails: CardDetails,
                            transaction_id: Optional[str] = None):
         
-        if not all([userDetails, productDetails, cardDetails]):
-            raise ValueError("Mandatory fields cannot be empty")
-        
         transaction_id = self.give_transaction_id(transaction_id)
+        transaction_id = str(transaction_id)
 
         transaction = TransactionDetails(transaction_id, userDetails, productDetails, cardDetails)
+
+        if not all([userDetails, productDetails, cardDetails]):
+            raise ValueError("Mandatory fields cannot be empty")
 
         return transaction
     
     def give_transaction_id(self, transaction_id):
         if transaction_id is None:
             transaction_id = str(uuid.uuid4()) #maybe handle differently with a database
-            return transaction_id
+        return transaction_id
