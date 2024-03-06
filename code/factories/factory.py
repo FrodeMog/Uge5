@@ -31,10 +31,10 @@ class Factory:
             data_dict.update(kwargs)
 
         mandatory_fields = self.get_mandatory_fields(cls)
-        
-        # If 'id' is a mandatory field and it's not provided, generate a UUID
-        if 'uuid' in mandatory_fields and 'uuid' not in data_dict:
-            data_dict['uuid'] = self.handle_id()
+
+        # If "uuid" is a mandatory field and its not provided, generate a UUID
+        if "uuid" in mandatory_fields and "uuid" not in data_dict:
+            data_dict["uuid"] = self.handle_id()
 
         self.check_mandatory_fields(data_dict, mandatory_fields)
 
