@@ -1,4 +1,4 @@
-from details.login import Login
+from items.login import Login
 import uuid
 from sqlalchemy import Column, Integer, String, Float, JSON
 from sqlalchemy.dialects.postgresql import UUID

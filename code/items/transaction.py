@@ -1,6 +1,6 @@
-from details.product import Product
-from details.user import User
-from details.card import Card
+from items.product import Product
+from items.user import User
+from items.card import Card
 import uuid
 from sqlalchemy import Column, Integer, String, Float, JSON
 from sqlalchemy.dialects.postgresql import UUID
