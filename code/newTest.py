@@ -2,6 +2,7 @@ import unittest
 from factories.factory import Factory
 from singletonDatabaseConnect import SingletonDatabaseConnect
 from singletonDatabaseConnectSQLAlchemy import SingletonDatabaseConnectSQLAlchemy
+from sqlalchemy import inspect
 #python -m unittest newTest.py
 
 class TestFactory(unittest.TestCase):
@@ -142,11 +143,13 @@ class TestSingletonDatabaseConnect(unittest.TestCase):
         self.assertIsNotNone(session)
 
     def test_connection_is_singleton(self):
-        connection1 = self.db.connection
-        connection2 = self.db.connection
+        db1 = SingletonDatabaseConnect(self.db_url)
+        db2 = SingletonDatabaseConnect(self.db_url)
+        connection1 = db1.connection
+        connection2 = db2.connection
         self.assertIs(connection1, connection2)
     
-    def test_factory(self):
+    def test_factory_product(self):
         factory = Factory("product")
         product = factory.create(self.product_data)
 
@@ -179,18 +182,22 @@ class TestSingletonDatabaseConnectSQLAlchemy(unittest.TestCase):
         self.assertIsNotNone(session)
     
     def test_engine_is_singleton(self):
-        engine1 = self.db.get_engine()
-        engine2 = self.db.get_engine()
+        db1 = SingletonDatabaseConnectSQLAlchemy(self.db_url)
+        db2 = SingletonDatabaseConnectSQLAlchemy(self.db_url)
+        engine1 = db1.get_engine()
+        engine2 = db2.get_engine()
         self.assertIs(engine1, engine2)
 
-    def test_factory(self):
+    def test_factory_product(self):
         factory = Factory("product")
         product = factory.create(self.product_data)
 
         session = self.db.get_session()
+        engine = self.db.get_engine()
+
+        type(product).metadata.create_all(engine) # Create table
 
         session.add(product)
-
         session.commit()
 
         result = session.query(type(product)).filter_by(uuid=product.uuid).first()

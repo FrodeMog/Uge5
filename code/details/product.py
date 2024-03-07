@@ -1,22 +1,27 @@
+from sqlalchemy import Column, Integer, String, Float, JSON
+from sqlalchemy.ext.declarative import declarative_base
 from typing import Optional
 
-class Product:
-    uuid: str
-    manufacturer_id: str
-    manufacturer: str
-    name: str
-    price: float
-    currency: str
-    quantity: Optional[int] = None
-    weight: Optional[float] = None
-    color: Optional[str] = None
-    release_year: Optional[int] = None
-    description: Optional[str] = None
-    category: Optional[str] = None
-    sub_category: Optional[str] = None
-    #image: Optional[#Image object] = None, #Maybe implement later
-    rating: Optional[dict] = None
-    tecnical_specs: Optional[dict] = None
+Base = declarative_base() #Base class from sqlalchemy
+
+class Product(Base):
+    __tablename__ = 'products'
+
+    uuid: str = Column(String, primary_key=True)
+    manufacturer_id: str = Column(String)
+    manufacturer: str = Column(String)
+    name: str = Column(String)
+    price: float = Column(Float)
+    currency: str = Column(String)
+    quantity: Optional[int] = Column(Integer)
+    weight: Optional[float] = Column(Float)
+    color: Optional[str] = Column(String)
+    release_year: Optional[int] = Column(Integer)
+    description: Optional[str] = Column(String)
+    category: Optional[str] = Column(String)
+    sub_category: Optional[str] = Column(String)
+    rating: Optional[dict] = Column(JSON) 
+    technical_specs: Optional[dict] = Column(JSON)
 
     def __init__(self, 
                 uuid, 
