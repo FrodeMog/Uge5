@@ -5,8 +5,8 @@ from singletonDatabaseConnectSQLAlchemy import SingletonDatabaseConnectSQLAlchem
 from sqlalchemy import inspect
 #python -m unittest newTest.py
 
-class TestFactory(unittest.TestCase):
-    def setUp(self):
+class TestData(unittest.TestCase):
+    def __init__(self):
         loginFactory = Factory("login")
         productFactory = Factory("product")
         userFactory = Factory("user")
@@ -47,6 +47,15 @@ class TestFactory(unittest.TestCase):
             "product": product,
             "card": card,
         }
+
+class TestFactory(unittest.TestCase):
+    def setUp(self):
+        self.test_data = TestData()
+        self.product_data = self.test_data.product_data
+        self.login_data = self.test_data.login_data
+        self.user_data = self.test_data.user_data
+        self.card_data = self.test_data.card_data
+        self.transaction_data = self.test_data.transaction_data
 
     def test_create_product(self):
         productFactory = Factory("product")
@@ -121,14 +130,12 @@ class TestSingletonDatabaseConnect(unittest.TestCase):
     def setUp(self):
         self.db_url = ":memory:"
         self.db = SingletonDatabaseConnect(self.db_url)
-        self.product_data = {
-            "currency": "USD",
-            "manufacturer": "Apple",
-            "manufacturer_id": "1",
-            "price": 1000,
-            "name": "iPhone",
-            "color": "black"
-        }
+        self.test_data = TestData()
+        self.product_data = self.test_data.product_data
+        self.login_data = self.test_data.login_data
+        self.user_data = self.test_data.user_data
+        self.card_data = self.test_data.card_data
+        self.transaction_data = self.test_data.transaction_data
     
     def test_singleton(self):
         db = SingletonDatabaseConnect(self.db_url)
@@ -164,14 +171,12 @@ class TestSingletonDatabaseConnectSQLAlchemy(unittest.TestCase):
     def setUp(self):
         self.db_url = "sqlite:///:memory:"
         self.db = SingletonDatabaseConnectSQLAlchemy(self.db_url)
-        self.product_data = {
-            "currency": "USD",
-            "manufacturer": "Apple",
-            "manufacturer_id": "1",
-            "price": 1000,
-            "name": "iPhone",
-            "color": "black"
-        }
+        self.test_data = TestData()
+        self.product_data = self.test_data.product_data
+        self.login_data = self.test_data.login_data
+        self.user_data = self.test_data.user_data
+        self.card_data = self.test_data.card_data
+        self.transaction_data = self.test_data.transaction_data
     
     def test_singleton(self):
         db = SingletonDatabaseConnectSQLAlchemy(self.db_url)
