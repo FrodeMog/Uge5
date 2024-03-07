@@ -1,6 +1,7 @@
 import unittest
 from factories.factory import Factory
 from singletonDatabaseConnect import SingletonDatabaseConnect
+from singletonDatabaseConnectSQLAlchemy import SingletonDatabaseConnectSQLAlchemy
 #python -m unittest newTest.py
 
 class TestFactory(unittest.TestCase):
@@ -148,6 +149,45 @@ class TestSingletonDatabaseConnect(unittest.TestCase):
 
         result = self.db.get_object(type(product))
         self.assertEqual(result[0], product.uuid)
+    
+class TestSingletonDatabaseConnectSQLAlchemy(unittest.TestCase):
+    def setUp(self):
+        self.db_url = "sqlite:///:memory:"
+        self.db = SingletonDatabaseConnectSQLAlchemy(self.db_url)
+        self.product_data = {
+            "currency": "USD",
+            "manufacturer": "Apple",
+            "manufacturer_id": "1",
+            "price": 1000,
+            "name": "iPhone",
+            "color": "black"
+        }
+    
+    def test_singleton(self):
+        db = SingletonDatabaseConnectSQLAlchemy(self.db_url)
+        self.assertEqual(self.db, db)
+    
+    def test_get_session(self):
+        session = self.db.get_session()
+        self.assertIsNotNone(session)
+    
+    def test_engine_is_singleton(self):
+        engine1 = self.db.get_engine()
+        engine2 = self.db.get_engine()
+        self.assertIs(engine1, engine2)
+
+    def test_factory(self):
+        factory = Factory("product")
+        product = factory.create(self.product_data)
+
+        session = self.db.get_session()
+
+        session.add(product)
+
+        session.commit()
+
+        result = session.query(type(product)).filter_by(uuid=product.uuid).first()
+        self.assertEqual(result.uuid, product.uuid)
 
 
 class CustomTestResult(unittest.TextTestResult):
