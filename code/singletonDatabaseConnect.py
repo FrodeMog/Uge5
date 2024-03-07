@@ -16,45 +16,6 @@ class SingletonDatabaseConnect:
     def get_cursor(self):
         return self.connection.cursor()
     
-    def create_table_product_details(self):
-        cursor = self.get_cursor()
-        cursor.execute(
-            """
-            CREATE TABLE IF NOT EXISTS product (
-                uuid TEXT PRIMARY KEY,
-                manufacturer_id TEXT,
-                manufacturer TEXT,
-                name TEXT,
-                price REAL,
-                currency TEXT,
-                quantity INTEGER,
-                weight REAL,
-                color TEXT,
-                release_year INTEGER,
-                description TEXT,
-                category TEXT,
-                sub_category TEXT,
-                rating TEXT,
-                tecnical_specs TEXT
-            )
-            """
-        )
-        self.connection.commit()
-        cursor.close()
-
-    def insert_product(self, product):
-        cursor = self.get_cursor()
-        cursor.execute(
-            "INSERT INTO product VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
-            (product.uuid, product.manufacturer_id, product.manufacturer, product.name, product.price, product.currency, product.quantity, product.weight, product.color, product.release_year, product.description, product.category, product.sub_category, product.rating, product.tecnical_specs)
-        )
-        self.connection.commit()
-
-    def get_product(self):
-        cursor = self.get_cursor()
-        cursor.execute("SELECT * FROM product")
-        return cursor.fetchone()
-    
     def create_table_from_class(self, cls):
         cursor = self.get_cursor()
         table_name = cls.__name__.lower()

@@ -138,15 +138,15 @@ class TestSingletonDatabaseConnect(unittest.TestCase):
         connection2 = self.db.connection
         self.assertIs(connection1, connection2)
     
-    def test_factory_hardcoded_table_insert(self):
+    def test_factory(self):
         factory = Factory("product")
         product = factory.create(self.product_data)
 
-        self.db.create_table_product_details()
+        self.db.create_table_from_class(type(product))
+        
+        self.db.insert_object(product)
 
-        self.db.insert_product(product)
-
-        result = self.db.get_product()
+        result = self.db.get_object(type(product))
         self.assertEqual(result[0], product.uuid)
 
 
