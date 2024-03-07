@@ -35,20 +35,20 @@ class SingletonDatabaseConnect:
         placeholders = ", ".join("?" * len(fields.split(', ')))
         values = [getattr(obj, name) for name in fields.split(', ')]
 
-        # Find the maximum "id" currently in the table
-        cursor.execute(f"SELECT MAX(id) FROM {table_name}")
-        max_id = cursor.fetchone()[0]
-        if max_id is None:
-            max_id = -1  # If the table is empty, start the ids at 0
-
-        # Increment the "id" field
+        # Get the next ID
         id_index = fields.split(', ').index('id')
-        values[id_index] = max_id + 1
+        values[id_index] = self.get_next_id(table_name)
 
         # Convert unsupported types to strings
         values = [str(value) if not isinstance(value, (int, float, str, bytes, type(None))) else value for value in values]
         cursor.execute(f"INSERT INTO {table_name} ({fields}) VALUES ({placeholders})", tuple(values))
         self.connection.commit()
+    
+    def get_next_id(self, table_name):
+        cursor = self.get_cursor()
+        cursor.execute(f"SELECT MAX(id) FROM {table_name}")
+        max_id = cursor.fetchone()[0]
+        return max_id + 1 if max_id is not None else 0
 
     def get_object(self, cls, **kwargs):
         cursor = self.get_cursor()
