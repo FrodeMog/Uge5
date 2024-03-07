@@ -1,4 +1,4 @@
-from details.userDetails import UserDetails
+from details.user import User
 from factories.factory import Factory
 
 class FactoryUser(Factory):
@@ -11,6 +11,6 @@ class FactoryUser(Factory):
         else:
             user_data.update(kwargs)
 
-        user = super().create(UserDetails, **user_data)
+        user = super().create(User, **user_data)
 
         return user

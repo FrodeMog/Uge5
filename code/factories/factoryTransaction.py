@@ -1,7 +1,4 @@
-from typing import Optional
-from details.transactionDetails import TransactionDetails
-from details.productDetails import ProductDetails
-from details.transactionDetails import TransactionDetails
+from details.transaction import Transaction
 from factories.factory import Factory
 
 class FactoryTransaction(Factory):
@@ -14,6 +11,6 @@ class FactoryTransaction(Factory):
         else:
             transaction_data.update(kwargs)
 
-        transaction = super().create(TransactionDetails, **transaction_data)
+        transaction = super().create(Transaction, **transaction_data)
 
         return transaction

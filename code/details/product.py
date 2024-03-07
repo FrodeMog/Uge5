@@ -1,6 +1,6 @@
 from typing import Optional
 
-class ProductDetails:
+class Product:
     uuid: str
     manufacturer_id: str
     manufacturer: str

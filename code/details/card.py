@@ -1,4 +1,9 @@
-class CardDetails:
+class Card:
+    card_number: str
+    card_holder_name: str
+    expiry_date: str
+    cvv: str
+
     def __init__(self, 
                  card_number, 
                  card_holder_name, 

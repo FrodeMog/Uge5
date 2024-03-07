@@ -1,4 +1,4 @@
-from details.productDetails import ProductDetails
+from details.product import Product
 from factories.factory import Factory
 
 class FactoryProduct(Factory):
@@ -11,6 +11,6 @@ class FactoryProduct(Factory):
         else:
             product_data.update(kwargs)
 
-        product = super().create(ProductDetails, **product_data)
+        product = super().create(Product, **product_data)
 
         return product

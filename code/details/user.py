@@ -1,6 +1,15 @@
-from details.loginDetails import LoginDetails
+from details.login import Login
 
-class UserDetails:
+class User:
+    uuid: str
+    name: str
+    age: int
+    email: str
+    address: str
+    shipping_address: str
+    phone: str
+    login: Login
+
     def __init__(self,
                 uuid,
                 name,
@@ -9,7 +18,7 @@ class UserDetails:
                 address,
                 shipping_address,
                 phone,
-                loginDetails: LoginDetails):
+                login: Login):
         
         self.uuid = uuid
         self.name = name
@@ -18,4 +27,4 @@ class UserDetails:
         self.address = address
         self.shipping_address = shipping_address
         self.phone = phone
-        self.loginDetails = loginDetails
+        self.login = Login
