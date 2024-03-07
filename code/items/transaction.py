@@ -15,9 +15,9 @@ class Transaction(Base):
 
     id = Column(Integer, primary_key=True)
     uuid = Column(UUID(as_uuid=True), default=uuid.uuid4, unique=True, nullable=False)
-    user: User = Mapped["User"]
-    product: Product = Mapped["Product"]
-    card: Card = Mapped["Card"]
+    user = Mapped["User"]
+    product = Mapped["Product"]
+    card = Mapped["Card"]
 
     def __init__(self, 
                  uuid, 

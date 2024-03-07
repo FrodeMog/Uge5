@@ -10,8 +10,8 @@ class Login(Base):
 
     id = Column(Integer, primary_key=True)
     uuid = Column(UUID(as_uuid=True), default=uuid.uuid4, unique=True, nullable=False)
-    username: str = Column(String)
-    password: str = Column(String)
+    username = Column(String)
+    password = Column(String)
 
     def __init__(self, 
                  username, 

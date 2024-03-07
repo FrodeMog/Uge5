@@ -10,10 +10,10 @@ class Card(Base):
 
     id = Column(Integer, primary_key=True)
     uuid = Column(UUID(as_uuid=True), default=uuid.uuid4, unique=True, nullable=False)
-    card_number: str = Column(String)
-    card_holder_name: str = Column(String)
-    expiry_date: str = Column(String)
-    cvv: str = Column(String)
+    card_number= Column(String)
+    card_holder_name = Column(String)
+    expiry_date = Column(String)
+    cvv = Column(String)
 
     def __init__(self, 
                  card_number, 
