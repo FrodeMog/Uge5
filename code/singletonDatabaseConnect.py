@@ -20,7 +20,7 @@ class SingletonDatabaseConnect:
     
     def create_table_from_class(self, cls):
         cursor = self.get_cursor()
-        table_name = cls.__name__.lower()
+        table_name = cls.__name__.lower() + "s"
         annotations = cls.__annotations__
         if not annotations:
             raise ValueError(f"Class {cls.__name__} doesn't have any annotations")
@@ -33,7 +33,7 @@ class SingletonDatabaseConnect:
 
     def insert_object(self, obj):
         cursor = self.get_cursor()
-        table_name = obj.__class__.__name__.lower()
+        table_name = obj.__class__.__name__.lower() + "s"
         fields = ", ".join(["uuid"] + list(obj.__class__.__annotations__.keys()))  # Include the uuid field
         placeholders = ", ".join("?" * (len(obj.__class__.__annotations__) + 1))  # Include a placeholder for the uuid
         values = [str(obj.uuid)] + [self.serialize(getattr(obj, name)) for name in obj.__class__.__annotations__.keys()]  # Include the uuid value and serialize objects that can be serialized to JSON
@@ -48,7 +48,7 @@ class SingletonDatabaseConnect:
 
     def get_object(self, cls):
         cursor = self.get_cursor()
-        table_name = cls.__name__.lower()
+        table_name = cls.__name__.lower() + "s"
         cursor.execute(f"SELECT * FROM {table_name}")
         row = cursor.fetchone()
         if row is None:
