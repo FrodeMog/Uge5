@@ -1,36 +1,54 @@
 from typing import Optional
 
 class ProductDetails:
+    uuid: str
+    manufacturer_id: str
+    manufacturer: str
+    name: str
+    price: float
+    currency: str
+    quantity: Optional[int] = None
+    weight: Optional[float] = None
+    color: Optional[str] = None
+    release_year: Optional[int] = None
+    description: Optional[str] = None
+    category: Optional[str] = None
+    sub_category: Optional[str] = None
+    #image: Optional[#Image object] = None, #Maybe implement later
+    rating: Optional[dict] = None
+    tecnical_specs: Optional[dict] = None
+
     def __init__(self, 
-                uuid: str, 
-                manufacturer_id: str, 
-                manufacturer: str, 
-                name: str, 
-                price: float, 
-                currency: str, 
-                quantity: Optional[int] = None, 
-                weight: Optional[float] = None, 
-                color: Optional[str] = None, 
-                release_year: Optional[int] = None, 
-                description: Optional[str] = None, 
-                category: Optional[str] = None, 
-                sub_category: Optional[str] = None, 
-                #image: Optional[#Image object] = None, #Maybe implement later
-                rating: Optional[dict] = None, 
-                tecnical_specs: Optional[dict] = None):
-        self.uuid = uuid                        #ID on sales page
-        self.manufacturer_id = manufacturer_id  #ID from manufacturer
-        self.manufacturer = manufacturer        #Name of the manufacturer
-        self.name = name                        #Name of the product
-        self.price = price                      #Price of the product
-        self.currency = currency                #Currency of the price. EX: USD, EUR, DKK
-        self.quantity = quantity                #Quantity of the product
-        self.weight = weight                    #Weight of the product in kg
-        self.color = color                      #Color of the product
-        self.release_year = release_year        #Year of release
-        self.description = description          #Description of the product
-        self.category = category                #Category of the product. EX: Electronics, Clothing, Food
-        self.sub_category = sub_category        #Sub category of the product. EX: Smartphone, T-shirt, Apple
-        #self.image = image                     #Image of the product
-        self.rating = rating                    #Rating of the product
-        self.tecnical_specs = tecnical_specs    #Tecnical specs of the product
+                uuid, 
+                manufacturer_id, 
+                manufacturer, 
+                name, 
+                price, 
+                currency, 
+                quantity = None, 
+                weight = None, 
+                color = None, 
+                release_year = None, 
+                description = None, 
+                category = None, 
+                sub_category = None, 
+                #image = None, #Maybe implement later
+                rating = None, 
+                tecnical_specs = None):
+        
+        self.uuid = uuid
+        self.manufacturer_id = manufacturer_id
+        self.manufacturer = manufacturer
+        self.name = name
+        self.price = price
+        self.currency = currency
+        self.quantity = quantity
+        self.weight = weight
+        self.color = color
+        self.release_year = release_year
+        self.description = description
+        self.category = category
+        self.sub_category = sub_category
+        #self.image = image
+        self.rating = rating
+        self.tecnical_specs = tecnical_specs
