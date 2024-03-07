@@ -1,6 +1,5 @@
 import sqlite3
 from typing import Optional
-from details.productDetails import ProductDetails
 
 class SingletonDatabaseConnect:
     def __new__(cls, db_url=None):
