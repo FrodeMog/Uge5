@@ -1,10 +1,10 @@
 import uuid
 import inspect
-from details.productDetails import ProductDetails as Product
-from details.transactionDetails import TransactionDetails as Transaction
-from details.userDetails import UserDetails as User
-from details.cardDetails import CardDetails as Card
-from details.loginDetails import LoginDetails as Login
+from details.product import Product as Product
+from details.transaction import Transaction as Transaction
+from details.user import User as User
+from details.card import Card as Card
+from details.login import Login as Login
 
 class Validator:
     @staticmethod

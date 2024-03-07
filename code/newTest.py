@@ -22,6 +22,7 @@ class TestFactory(unittest.TestCase):
             "username": "user",
             "password": "pass"
         }
+        login = loginFactory.create(self.login_data)
         self.user_data = {
             "name": "John",
             "age": 30,
@@ -29,7 +30,7 @@ class TestFactory(unittest.TestCase):
             "address": "123 fake st",
             "shipping_address": "123 fake st",
             "phone": "123456789",
-            "loginDetails": loginFactory.create(self.login_data),
+            "login": login,  
         }
         self.card_data = {
             "card_number": "123456789",
@@ -37,10 +38,13 @@ class TestFactory(unittest.TestCase):
             "expiry_date": "12/23",
             "cvv": "123"
         }
+        user = userFactory.create(self.user_data)
+        product = productFactory.create(self.product_data)
+        card = cardFactory.create(self.card_data)
         self.transaction_data = {
-            "userDetails": userFactory.create(self.user_data),
-            "productDetails": cardFactory.create(self.card_data),
-            "cardDetails": productFactory.create(self.product_data),
+            "user": user,
+            "product": product,
+            "card": card,
         }
 
     def test_create_product(self):
@@ -49,7 +53,7 @@ class TestFactory(unittest.TestCase):
         for key, value in self.product_data.items():
             self.assertEqual(getattr(product, key), value)
 
-    def test_create_product_ivalid_price(self):
+    def test_create_product_invalid_price(self):
         productFactory = Factory("product")
         self.product_data["price"] = -100
         with self.assertRaises(ValueError):
@@ -77,7 +81,10 @@ class TestFactory(unittest.TestCase):
         userFactory = Factory("user")
         user = userFactory.create(self.user_data)
         for key, value in self.user_data.items():
-            self.assertEqual(getattr(user, key), value)
+            if key == "login":
+                self.assertEqual(type(getattr(user, key)), value)
+            else:
+                self.assertEqual(getattr(user, key), value)
     
     def test_create_user_missing_values(self):
         userFactory = Factory("user")
@@ -105,7 +112,7 @@ class TestFactory(unittest.TestCase):
     
     def test_create_transaction_missing_values(self):
         transactionFactory = Factory("transaction")
-        self.transaction_data.pop("userDetails")
+        self.transaction_data.pop("user")
         with self.assertRaises(ValueError):
             transactionFactory.create(self.transaction_data)
 
