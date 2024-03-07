@@ -344,7 +344,32 @@ class TestSingletonDatabaseConnectSQLAlchemy(unittest.TestCase):
 
         result = session.query(type(transaction)).filter_by(uuid=transaction.uuid).first()
         self.assertEqual(result.uuid, transaction.uuid)
+    
+    def test_create_multiple_products(self):
+        factory = Factory("product")
+        product = factory.create(self.product_data)
 
+        session = self.db.get_session()
+        engine = self.db.get_engine()
+
+        type(product).metadata.create_all(engine)
+
+        for _ in range(10):
+            # Create a new product and store it in the database
+            product_data = self.product_data.copy()
+            product_data.pop("uuid", None)
+            product = factory.create(product_data)
+            session.add(product)
+            session.commit()
+        
+        # Retrieve all products from the database
+        results = session.query(type(product)).all()
+
+        ids = [result.id for result in results]
+        uuids = [result.uuid for result in results]
+        self.assertEqual(len(ids), len(set(ids)), "IDs are not unique")
+        self.assertEqual(len(uuids), len(set(uuids)), "UUIDs are not unique")
+        
 class CustomTestResult(unittest.TextTestResult):
     def printErrors(self):
         self.stream.writeln("Passed: {}".format(self.testsRun - len(self.failures) - len(self.errors)))
