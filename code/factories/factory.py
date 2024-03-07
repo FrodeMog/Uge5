@@ -51,7 +51,7 @@ class Factory:
 
         # If "uuid" is a mandatory field and its not provided, generate a UUID
         if "uuid" in mandatory_fields and "uuid" not in data_dict:
-            data_dict["uuid"] = self.handle_id()
+            data_dict["uuid"] = self.handle_uuid()
 
         self.check_mandatory_fields(data_dict, mandatory_fields)
 
@@ -68,5 +68,5 @@ class Factory:
         if missing_fields:
             raise ValueError(f"Mandatory fields cannot be empty: {', '.join(missing_fields)}")
 
-    def handle_id(self):
-        return str(uuid.uuid4()) # maybe handle differently with a database
+    def handle_uuid(self):
+        return uuid.uuid4()
