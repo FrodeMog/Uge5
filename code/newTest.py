@@ -126,6 +126,18 @@ class TestFactory(unittest.TestCase):
         with self.assertRaises(ValueError):
             transactionFactory.create(self.transaction_data)
 
+    def test_create_multiple_products(self):
+        productFactory = Factory("product")
+        products = []
+        for _ in range(10):
+            product_data = self.product_data.copy()
+            product_data.pop("uuid", None)  # Remove the uuid if it exists
+            product = productFactory.create(product_data)
+            products.append(product)
+        
+        for i in range(10):
+            self.assertNotEqual(products[i].uuid, products[i-1].uuid)
+
 class TestSingletonDatabaseConnect(unittest.TestCase):
     def setUp(self):
         self.db_url = ":memory:"
@@ -164,7 +176,7 @@ class TestSingletonDatabaseConnect(unittest.TestCase):
         
         self.db.insert_object(product)
 
-        result = self.db.get_object(type(product))
+        result = self.db.get_object(type(product), uuid = product.uuid)
         self.assertEqual(result["uuid"], str(product.uuid))
     
     def test_factory_login(self):
@@ -175,7 +187,7 @@ class TestSingletonDatabaseConnect(unittest.TestCase):
         
         self.db.insert_object(login)
 
-        result = self.db.get_object(type(login))
+        result = self.db.get_object(type(login), username = login.username)
         self.assertEqual(result["username"], str(login.username))
 
     def test_factory_user(self):
@@ -186,7 +198,7 @@ class TestSingletonDatabaseConnect(unittest.TestCase):
         
         self.db.insert_object(user)
 
-        result = self.db.get_object(type(user))
+        result = self.db.get_object(type(user), uuid = user.uuid)
         self.assertEqual(result["uuid"], str(user.uuid))
     
     def test_factory_card(self):
@@ -197,8 +209,8 @@ class TestSingletonDatabaseConnect(unittest.TestCase):
         
         self.db.insert_object(card)
 
-        result = self.db.get_object(type(card))
-        self.assertEqual(result["uuid"], str(card.uuid))
+        result = self.db.get_object(type(card), card_number = card.card_number)
+        self.assertEqual(result["card_number"], str(card.card_number))
 
     def test_factory_transaction(self):
         factory = Factory("transaction")
@@ -208,8 +220,29 @@ class TestSingletonDatabaseConnect(unittest.TestCase):
         
         self.db.insert_object(transaction)
 
-        result = self.db.get_object(type(transaction))
+        result = self.db.get_object(type(transaction), uuid = transaction.uuid)
         self.assertEqual(result["uuid"], str(transaction.uuid))
+    
+    def test_create_multiple_products(self):
+        factory = Factory("product")
+        product = factory.create(self.product_data)
+        self.db.create_table_from_class(type(product))
+        
+        for _ in range(10):
+            # Create a new product and store it in the database
+            product_data = self.product_data.copy()
+            product_data.pop("uuid", None)  # Ensure a new UUID is generated
+            product = factory.create(product_data)
+            self.db.insert_object(product)
+
+        # Retrieve all products from the database
+        results = list(self.db.get_all_objects(type(product)))
+
+        # Check that all products have a unique id and uuid
+        ids = [result["id"] for result in results]
+        uuids = [result["uuid"] for result in results]
+        self.assertEqual(len(ids), len(set(ids)), "IDs are not unique")
+        self.assertEqual(len(uuids), len(set(uuids)), "UUIDs are not unique")
         
 class TestSingletonDatabaseConnectSQLAlchemy(unittest.TestCase):
     def setUp(self):
