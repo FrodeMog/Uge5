@@ -1,8 +1,19 @@
-class Card:
-    card_number: str
-    card_holder_name: str
-    expiry_date: str
-    cvv: str
+import uuid
+from sqlalchemy import Column, Integer, String
+from sqlalchemy.dialects.postgresql import UUID
+from sqlalchemy.ext.declarative import declarative_base
+
+Base = declarative_base()
+
+class Card(Base):
+    __tablename__ = 'cards'
+
+    id = Column(Integer, primary_key=True)
+    uuid = Column(UUID(as_uuid=True), default=uuid.uuid4, unique=True, nullable=False)
+    card_number: str = Column(String)
+    card_holder_name: str = Column(String)
+    expiry_date: str = Column(String)
+    cvv: str = Column(String)
 
     def __init__(self, 
                  card_number, 

@@ -1,4 +1,6 @@
+import uuid
 from sqlalchemy import Column, Integer, String, Float, JSON
+from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.ext.declarative import declarative_base
 from typing import Optional
 
@@ -7,7 +9,8 @@ Base = declarative_base() #Base class from sqlalchemy
 class Product(Base):
     __tablename__ = 'products'
 
-    uuid: str = Column(String, primary_key=True)
+    id = Column(Integer, primary_key=True)
+    uuid = Column(UUID(as_uuid=True), default=uuid.uuid4, unique=True, nullable=False)
     manufacturer_id: str = Column(String)
     manufacturer: str = Column(String)
     name: str = Column(String)
@@ -24,7 +27,7 @@ class Product(Base):
     technical_specs: Optional[dict] = Column(JSON)
 
     def __init__(self, 
-                uuid, 
+                uuid,
                 manufacturer_id, 
                 manufacturer, 
                 name, 
