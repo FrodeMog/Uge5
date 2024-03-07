@@ -1,5 +1,6 @@
 import unittest
 from factories.factory import Factory
+from singletonDatabaseConnect import SingletonDatabaseConnect
 #python -m unittest newTest.py
 
 class TestFactory(unittest.TestCase):
@@ -106,6 +107,47 @@ class TestFactory(unittest.TestCase):
         self.transaction_data.pop("userDetails")
         with self.assertRaises(ValueError):
             transactionFactory.create(self.transaction_data)
+
+class TestSingletonDatabaseConnect(unittest.TestCase):
+    def setUp(self):
+        self.db_url = ":memory:"
+        self.db = SingletonDatabaseConnect(self.db_url)
+        self.product_data = {
+            "currency": "USD",
+            "manufacturer": "Apple",
+            "manufacturer_id": "1",
+            "price": 1000,
+            "name": "iPhone",
+            "color": "black"
+        }
+    
+    def test_singleton(self):
+        db = SingletonDatabaseConnect(self.db_url)
+        self.assertEqual(self.db, db)
+
+    def test_get_cursor(self):
+        cursor = self.db.get_cursor()
+        self.assertIsNotNone(cursor)
+    
+    def test_get_session(self):
+        session = self.db.get_session()
+        self.assertIsNotNone(session)
+
+    def test_connection_is_singleton(self):
+        connection1 = self.db.connection
+        connection2 = self.db.connection
+        self.assertIs(connection1, connection2)
+    
+    def test_factory_hardcoded_table_insert(self):
+        factory = Factory("product")
+        product = factory.create(self.product_data)
+
+        self.db.create_table_product_details()
+
+        self.db.insert_product(product)
+
+        result = self.db.get_product()
+        self.assertEqual(result[0], product.uuid)
 
 
 class CustomTestResult(unittest.TextTestResult):
