@@ -14,7 +14,7 @@ class TestData(unittest.TestCase):
         self.product_data = {
             "currency": "USD",
             "manufacturer": "Apple",
-            "manufacturer_id": "1",
+            "manufacturer_id": "APPLE_123",
             "price": 1000,
             "name": "iPhone",
             "color": "black"
@@ -165,8 +165,52 @@ class TestSingletonDatabaseConnect(unittest.TestCase):
         self.db.insert_object(product)
 
         result = self.db.get_object(type(product))
-        self.assertEqual(result[0], product.uuid)
+        self.assertEqual(result["uuid"], str(product.uuid))
     
+    def test_factory_login(self):
+        factory = Factory("login")
+        login = factory.create(self.login_data)
+
+        self.db.create_table_from_class(type(login))
+        
+        self.db.insert_object(login)
+
+        result = self.db.get_object(type(login))
+        self.assertEqual(result["username"], str(login.username))
+
+    def test_factory_user(self):
+        factory = Factory("user")
+        user = factory.create(self.user_data)
+
+        self.db.create_table_from_class(type(user))
+        
+        self.db.insert_object(user)
+
+        result = self.db.get_object(type(user))
+        self.assertEqual(result["uuid"], str(user.uuid))
+    
+    def test_factory_card(self):
+        factory = Factory("card")
+        card = factory.create(self.card_data)
+
+        self.db.create_table_from_class(type(card))
+        
+        self.db.insert_object(card)
+
+        result = self.db.get_object(type(card))
+        self.assertEqual(result["uuid"], str(card.uuid))
+
+    def test_factory_transaction(self):
+        factory = Factory("transaction")
+        transaction = factory.create(self.transaction_data)
+
+        self.db.create_table_from_class(type(transaction))
+        
+        self.db.insert_object(transaction)
+
+        result = self.db.get_object(type(transaction))
+        self.assertEqual(result["uuid"], str(transaction.uuid))
+        
 class TestSingletonDatabaseConnectSQLAlchemy(unittest.TestCase):
     def setUp(self):
         self.db_url = "sqlite:///:memory:"
@@ -208,6 +252,65 @@ class TestSingletonDatabaseConnectSQLAlchemy(unittest.TestCase):
         result = session.query(type(product)).filter_by(uuid=product.uuid).first()
         self.assertEqual(result.uuid, product.uuid)
 
+    def test_factory_login(self):
+        factory = Factory("login")
+        login = factory.create(self.login_data)
+
+        session = self.db.get_session()
+        engine = self.db.get_engine()
+
+        type(login).metadata.create_all(engine)
+
+        session.add(login)
+        session.commit()
+
+        result = session.query(type(login)).filter_by(uuid=login.uuid).first()
+        self.assertEqual(result.uuid, login.uuid)
+    
+    def test_factory_user(self):
+        factory = Factory("user")
+        user = factory.create(self.user_data)
+
+        session = self.db.get_session()
+        engine = self.db.get_engine()
+
+        type(user).metadata.create_all(engine)
+
+        session.add(user)
+        session.commit()
+
+        result = session.query(type(user)).filter_by(uuid=user.uuid).first()
+        self.assertEqual(result.uuid, user.uuid)
+    
+    def test_factory_card(self):
+        factory = Factory("card")
+        card = factory.create(self.card_data)
+
+        session = self.db.get_session()
+        engine = self.db.get_engine()
+
+        type(card).metadata.create_all(engine)
+
+        session.add(card)
+        session.commit()
+
+        result = session.query(type(card)).filter_by(uuid=card.uuid).first()
+        self.assertEqual(result.uuid, card.uuid)
+    
+    def test_factory_transaction(self):
+        factory = Factory("transaction")
+        transaction = factory.create(self.transaction_data)
+
+        session = self.db.get_session()
+        engine = self.db.get_engine()
+
+        type(transaction).metadata.create_all(engine)
+
+        session.add(transaction)
+        session.commit()
+
+        result = session.query(type(transaction)).filter_by(uuid=transaction.uuid).first()
+        self.assertEqual(result.uuid, transaction.uuid)
 
 class CustomTestResult(unittest.TextTestResult):
     def printErrors(self):
