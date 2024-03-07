@@ -92,7 +92,7 @@ class TestFactory(unittest.TestCase):
         user = userFactory.create(self.user_data)
         for key, value in self.user_data.items():
             if key == "login":
-                self.assertEqual(getattr(user, key), value.__class__)
+                self.assertEqual(type(getattr(user, key)), value.__class__)
             else:
                 self.assertEqual(getattr(user, key), value)
     
