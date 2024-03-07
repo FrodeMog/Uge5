@@ -34,6 +34,17 @@ class SingletonDatabaseConnect:
         fields = ", ".join([column.name for column in obj.__class__.__table__.columns])
         placeholders = ", ".join("?" * len(fields.split(', ')))
         values = [getattr(obj, name) for name in fields.split(', ')]
+
+        # Find the maximum "id" currently in the table
+        cursor.execute(f"SELECT MAX(id) FROM {table_name}")
+        max_id = cursor.fetchone()[0]
+        if max_id is None:
+            max_id = -1  # If the table is empty, start the ids at 0
+
+        # Increment the "id" field
+        id_index = fields.split(', ').index('id')
+        values[id_index] = max_id + 1
+
         # Convert unsupported types to strings
         values = [str(value) if not isinstance(value, (int, float, str, bytes, type(None))) else value for value in values]
         cursor.execute(f"INSERT INTO {table_name} ({fields}) VALUES ({placeholders})", tuple(values))
@@ -50,6 +61,16 @@ class SingletonDatabaseConnect:
             raise ValueError(f"No object of type {cls.__name__} found in the database")
         else:
             return {description[0]: value for description, value in zip(cursor.description, row)}  # Return a dictionary with the column names as keys
+        
+    def get_all_objects(self, cls):
+        cursor = self.get_cursor()
+        table_name = getattr(cls, '__tablename__', cls.__name__.lower() + "s")
+        cursor.execute(f"SELECT * FROM {table_name}")
+        while True:
+            row = cursor.fetchone()
+            if row is None:
+                break
+            yield {description[0]: value for description, value in zip(cursor.description, row)}  # Yield a dictionary with the column names as keys
 
     def get_sqlite_type(self, type_hint):
         if isinstance(type_hint, str):
