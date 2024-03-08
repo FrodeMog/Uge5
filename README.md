@@ -6,6 +6,7 @@ This includes description of solution
 
 ## View code used
 This is the code used for the project. See [Diagrams](#diagrams) for structure
+
 [Classes](code/items/)
 [Factory](code/factories/factory.py)
 [Singleton_sqlite3](code/singletonDatabaseConnect.py)
