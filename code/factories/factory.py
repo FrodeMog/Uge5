@@ -1,10 +1,6 @@
 import uuid
 import inspect
-from items.product import Product as Product
-from items.transaction import Transaction as Transaction
-from items.user import User as User
-from items.card import Card as Card
-from items.login import Login as Login
+from items import *
 
 class Validator:
     @staticmethod
