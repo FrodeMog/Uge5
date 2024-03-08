@@ -1,12 +1,10 @@
+import uuid
 from items.product import Product
 from items.user import User
 from items.card import Card
-import uuid
-from sqlalchemy import Column, Integer, String, Float, JSON
+from sqlalchemy import Column, Integer
 from sqlalchemy.dialects.postgresql import UUID
-from sqlalchemy.orm import Mapped
-from sqlalchemy.ext.declarative import declarative_base
-from typing import Optional
+from sqlalchemy.orm import Mapped, declarative_base
 
 Base = declarative_base() #Base class from sqlalchemy
 

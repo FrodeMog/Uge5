@@ -1,8 +1,7 @@
 import uuid
 from sqlalchemy import Column, Integer, String, Float, JSON
 from sqlalchemy.dialects.postgresql import UUID
-from sqlalchemy.ext.declarative import declarative_base
-from typing import Optional
+from sqlalchemy.orm import declarative_base
 
 Base = declarative_base() #Base class from sqlalchemy
 

@@ -1,10 +1,8 @@
-from items.login import Login
 import uuid
-from sqlalchemy import Column, Integer, String, Float, JSON
+from items.login import Login
+from sqlalchemy import Column, Integer, String
 from sqlalchemy.dialects.postgresql import UUID
-from sqlalchemy.orm import Mapped
-from sqlalchemy.ext.declarative import declarative_base
-from typing import Optional
+from sqlalchemy.orm import Mapped, declarative_base
 
 Base = declarative_base() #Base class from sqlalchemy
 
