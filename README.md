@@ -33,7 +33,8 @@ Packages diagram
     ```
 
 4. Run the tests
-    make sure you're in /code/
+
+make sure you're in /code/
     ```
     python -m unittest newTest.py
     ```
