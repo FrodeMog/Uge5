@@ -35,9 +35,7 @@ Packages diagram
     ```
 
 4. Run the tests
-
-make sure you're in /code/
-
+make sure you're in directory with the tests: /code/
     ```
     python -m unittest newTest.py
     ```
