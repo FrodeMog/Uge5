@@ -1,7 +1,7 @@
 # Uge5 Product and Transaction system
 
 ## Diagrams
-![First draft of project](flowcharts/flowchart_draft_1.png)
+![First draft of project](diagrams/flowchart_draft_1.png)
 
 ## Installation
 
