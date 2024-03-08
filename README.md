@@ -9,8 +9,10 @@ Initially I had multiple factories. Now I just have 1 for all the types.
 
 ### Pyreverse diagrams
 Here are the pyreverse generated diagrams
+
 Class diagram
 ![Pyreverse_classes](diagrams/classes_Uge5.png)
+
 Packages diagram
 ![Pyreverse_packages](diagrams/packages_Uge5.png)
 
@@ -35,6 +37,7 @@ Packages diagram
 4. Run the tests
 
 make sure you're in /code/
+
     ```
     python -m unittest newTest.py
     ```
