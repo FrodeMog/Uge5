@@ -31,7 +31,7 @@ This is the code used for the project. See [Diagrams](#diagrams) for structure
     pip install -r requirements.txt
     ```
 
-4. Run the tests
+4. Run the tests:
 make sure you're in directory with the tests: /code/
     ```
     python -m unittest newTest.py
